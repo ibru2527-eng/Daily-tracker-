@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kids Routine Tracker</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f5fbff;padding:20px}
+.card{background:#fff;border-radius:16px;padding:16px;max-width:900px;margin:auto}
+table{width:100%;border-collapse:collapse}
+td,th{padding:10px;border:1px solid #ddd;font-size:20px}
+button{font-size:22px;padding:8px 14px}
+</style></head>
+<body><div class="card">
+<h1>🌈 Yusuf & Ibrahim Daily Tracker</h1>
+<table id="t"><tr><th>Task</th><th>Yusuf</th><th>Ibrahim</th></tr></table>
+<p id="score"></p>
+</div>
+<script>
+const tasks=["Wake Up","Morning Prayer","Bath & Get Ready","Breakfast","Go to School","Wash Up","Arabic Class","Free Time","Tuition","Relax","Homework & Study","Dinner","Shower","Night Prayer","Brush Teeth","Sleep"];
+const tbl=document.getElementById('t');
+let state=JSON.parse(localStorage.getItem('kidsTracker')||'{}');
+tasks.forEach((x,i)=>{
+ let r=tbl.insertRow();
+ r.insertCell().textContent=x;
+ ["y","i"].forEach(k=>{
+   let c=r.insertCell();
+   let b=document.createElement('button');
+   let id=k+i;
+   b.textContent=state[id]?"✅":"⬜";
+   b.onclick=()=>{state[id]=!state[id];b.textContent=state[id]?"✅":"⬜";localStorage.setItem('kidsTracker',JSON.stringify(state));update(); if(state[id]) new Audio("data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEA").play().catch(()=>{});};
+   c.appendChild(b);
+ });
+});
+function update(){let s=Object.values(state).filter(Boolean).length;document.getElementById('score').textContent="Stars: ⭐ "+s;}
+update();
+</script></body></html>
